@@ -8,29 +8,9 @@
 
 using namespace std;
 
-const int max_pop = 200;
+const int max_pop = 200; 
 
-long double Func(double x, double y) {
-	return (3 * x * x + x * y + 2 * y * y - x - 4 * y); //p1
-	//return pow(y, 2) + 2 * x * y - 4 * x - 2 * y - 3; //p2
-	//return sin(sqrt(y / pow(x, 2))); //p13
-	//return pow(x-2, 2)+3*pow(y, 2); //p37
-	//return 1 - sqrt(pow(x, 3) + pow(y, 2)); //p29
-}
-
-void sort(long double fitness[max_pop], double population[2][max_pop]) { //сортировка поколений по убыванию fitness
-	for (int i = 0; i < max_pop; i++) {
-		for (int j = max_pop - 1; j > i; j--) {
-			if (fitness[j] < fitness[j - 1]) {
-				swap(fitness[j], fitness[j - 1]);
-				swap(population[0][j], population[0][j - 1]);
-				swap(population[1][j], population[1][j - 1]);
-			}
-		}
-	}
-}
-
-void print_results(long double fitness[max_pop], double population[2][max_pop]) {
+/*void print_results(long double fitness[max_pop], double population[2][max_pop]) {
 	cout << "X: ";
 
 	for (int i = 0; i < 2; i++) {
@@ -45,21 +25,7 @@ void print_results(long double fitness[max_pop], double population[2][max_pop]) 
 	for (int i = 0; i < max_pop; i++) 
 		cout << fitness[i] << "	";
 	cout << endl << endl;
-}
-
-double mutation(double num1, double num2) {
-	const int corNum = 1000000000;
-	return fabs((double)((rand() * corNum) % (int)((num2 - num1) * corNum) + 1) / corNum) + num1;
-}
-
-double inversion(double x, double P) {
-	static int s = 0;
-	s %= 2;
-
-	s++;
-	if (s == 0) return x += P;
-	else return x -= P;
-}
+}*/
 
 void GenAlg_min(double population[2][max_pop], double x1, double x2, double P) {
 	int k = max_pop - 1;
@@ -101,6 +67,40 @@ void GenAlg_max(double population[2][max_pop], double x1, double x2, double P) {
 		population[0][k] = mutation(x1, x2);
 		population[1][k] = mutation(x1, x2);
 		k++;
+	}
+}
+
+double mutation(double num1, double num2) {
+	const int corNum = 1000000000;
+	return fabs((double)((rand() * corNum) % (int)((num2 - num1) * corNum) + 1) / corNum) + num1;
+}
+
+double inversion(double x, double P) {
+	static int s = 0;
+	s %= 2;
+
+	s++;
+	if (s == 0) return x += P;
+	else return x -= P;
+}
+
+long double Func(double x, double y) {
+	return (3 * x * x + x * y + 2 * y * y - x - 4 * y); //p1
+	//return pow(y, 2) + 2 * x * y - 4 * x - 2 * y - 3; //p2
+	//return sin(sqrt(y / pow(x, 2))); //p13
+	//return pow(x-2, 2)+3*pow(y, 2); //p37
+	//return 1 - sqrt(pow(x, 3) + pow(y, 2)); //p29
+}
+
+void sort(long double fitness[max_pop], double population[2][max_pop]) { //сортировка поколений по убыванию fitness
+	for (int i = 0; i < max_pop; i++) {
+		for (int j = max_pop - 1; j > i; j--) {
+			if (fitness[j] < fitness[j - 1]) {
+				swap(fitness[j], fitness[j - 1]);
+				swap(population[0][j], population[0][j - 1]);
+				swap(population[1][j], population[1][j - 1]);
+			}
+		}
 	}
 }
 
